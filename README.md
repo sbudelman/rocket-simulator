@@ -10,7 +10,7 @@ The initial development of this project will be documented as part of a YouTube 
 
 ## Roadmap
 
-- [ ] 2-D Rocket dynamics with thrust vectoring
+- [x] 2-D Rocket dynamics with thrust vectoring
 - [ ] PID controller implementation
 - [ ] Robust control:
   - [ ] Delays and dead times
