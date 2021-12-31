@@ -45,6 +45,11 @@ def rocket_mmoi(mass) -> float: #kg m2
     initial_mmoi = 0.045
     return mass / ROCKET_WET_MASS * initial_mmoi
 
+def rocket_vel_u(vx, vz, theta):
+    if theta in [m.radians(0), m.radians(180)]:
+        return vz
+    return vx/m.sin(theta)
+
 time = 0.0
 
 # graph data
@@ -61,7 +66,8 @@ phi = ROCKET_INITIAL_GIMBAL_ANGLE
 while time < SIM_DURATION:
 
     thrust = ROCKET_MAX_THRUST if time < ROCKET_BURN_TIME else 0.0
-    drag = 0.5 * rocket_drag_coeff() * air_density(position[1]) * area
+    vel_u = rocket_vel_u(velocity[0], velocity[1], position[2])
+    drag = 0.5 * rocket_drag_coeff() * air_density(position[1]) * area * vel_u**2
     lift = 0.0 # ignoring lift contribution for now
 
     acc[0] = 1 / mass * (thrust * m.sin(position[2] + phi) - drag*m.sin(position[2]) - lift*m.cos(position[2]))
