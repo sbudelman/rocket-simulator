@@ -1,5 +1,6 @@
 import math as m
 from config import *
+from controller import Controller
 from graphs import GraphHandler
 from rocket import Rocket
 
@@ -18,16 +19,15 @@ rocket_config = {
 }
 
 rocket = Rocket(**rocket_config)
-
-def rocket_vel_u(vx, vz, theta):
-    if theta in [m.radians(0), m.radians(180)]:
-        return vz
-    return vx/m.sin(theta)
+phi_controller = Controller()
+rocket.controller = phi_controller
+rocket.controller.setpoint = 0.0
+rocket.controller.set_gains(0.0, 0.0, 0.0)
 
 time = 0.0
 
-# graph data
-graph = GraphHandler(4, size=[5, m.ceil(SIM_DURATION / SIM_TIMESTEP + 1)])
+# graph data0
+graph = GraphHandler(5, size=[5, m.ceil(SIM_DURATION / SIM_TIMESTEP + 1)])
 while time < SIM_DURATION:
 
     rocket.update(time)
@@ -45,8 +45,11 @@ ax1.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax1.get_xaxis_transform(), color=
 ax2 = graph.define_plot(0, 2, xlabel='time [s]', ylabel='z [m]', title='Z over time')
 ax2.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax2.get_xaxis_transform(), color='red')
 
-ax3 = graph.define_plot(1, 2, xlabel='x [m]', ylabel='z [m]', title='Trajectory')
+ax3 = graph.define_plot(0, 3, xlabel='time [s]', ylabel='theta [rad]', title='Theta over time')
+ax3.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax3.get_xaxis_transform(), color='red')
 
-ax4 = graph.define_plot(0, 4, xlabel='time [s]', ylabel='thrust [N]', title='Thrust over time')
+ax4 = graph.define_plot(1, 2, xlabel='x [m]', ylabel='z [m]', title='Trajectory')
+
+ax5 = graph.define_plot(0, 4, xlabel='time [s]', ylabel='thrust [N]', title='Thrust over time')
 
 graph.show()

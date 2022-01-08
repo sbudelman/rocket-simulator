@@ -1,4 +1,5 @@
 import math as m
+from controller import Controller
 import physics
 from config import *
 
@@ -24,7 +25,10 @@ class Rocket:
         self.acc = [0.0, 0.0, 0.0]
         self.area = 0.25 * m.pi * self.diameter ** 2
 
+        self._controller = None
+
     def update(self, time):
+        self.update_phi()
         self.update_thrust(time)
         self.update_drag()
         self.update_lift()
@@ -71,7 +75,7 @@ class Rocket:
         self.lift =  0.0 # ignoring lift contribution for now
 
     def update_kinematics(self):
-        self.acc[0] = 1 / self.mass * (self.thrust * m.sin(self.position[2] + self.phi) - self.drag*m.sin(self.position[2]) - self.lift*m.cos(self.position[2]))
+        self.acc[0] = 1 / self.mass * (self.thrust*m.sin(self.position[2] + self.phi) - self.drag*m.sin(self.position[2]) - self.lift*m.cos(self.position[2]))
         self.acc[1] = 1 / self.mass * (self.thrust*m.cos(self.position[2] + self.phi) - self.drag*m.cos(self.position[2]) + self.lift*m.sin(self.position[2])) - GRAVITY
         self.acc[2] = 1 / self.mmoi() * (- self.thrust * m.sin(self.phi) * self.centre_gravity() + self.lift * (self.centre_gravity() - self.centre_pressure()))
 
@@ -93,3 +97,17 @@ class Rocket:
     @phi.setter
     def phi(self, angle):
         self.gimbal_angle = angle
+
+    @property
+    def controller(self) -> Controller:
+        return self._controller
+
+    @controller.setter
+    def controller(self, controller):
+        if self._controller is None:
+            self._controller = controller
+        else:
+            ValueError("A controller has already been defined for this rocket. Cannot be replaced.")
+
+    def update_phi(self):
+        self.phi = self.controller.get_output(self.position[2])
