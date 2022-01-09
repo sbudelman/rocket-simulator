@@ -22,12 +22,12 @@ rocket = Rocket(**rocket_config)
 phi_controller = Controller()
 rocket.controller = phi_controller
 rocket.controller.setpoint = 0.0
-rocket.controller.set_gains(0.0, 0.0, 0.0)
+rocket.controller.set_gains(0.1, 0.0, 0.0)
 
 time = 0.0
 
 # graph data
-n_plots = 11
+n_plots = 12
 n_simulation_steps = m.ceil(SIM_DURATION / SIM_TIMESTEP + 1)
 graph = GraphHandler(size=[n_plots, n_simulation_steps])
 while time < SIM_DURATION:
@@ -38,7 +38,7 @@ while time < SIM_DURATION:
         print(f'Rocket landed/crashed. Time: {time:.2f}')
         break
 
-    graph.collect([time, *rocket.position, *rocket.velocity, *rocket.acc, rocket.thrust])
+    graph.collect([time, *rocket.position, *rocket.velocity, *rocket.acc, rocket.thrust, rocket.phi])
     time += SIM_TIMESTEP
 
 ax1 = graph.define_plot(0, 1, xlabel='time [s]', ylabel='x [m]', title='X over time')
@@ -71,5 +71,7 @@ ax9.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax9.get_xaxis_transform(), color=
 ax10 = graph.define_plot(1, 2, xlabel='x [m]', ylabel='z [m]', title='Trajectory')
 
 ax11 = graph.define_plot(0, 10, xlabel='time [s]', ylabel='thrust [N]', title='Thrust over time')
+
+ax12 = graph.define_plot(0, 11, xlabel='time [s]', ylabel='phi [rad]', title='Phi over time')
 
 graph.show()
