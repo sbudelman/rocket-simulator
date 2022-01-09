@@ -1,4 +1,5 @@
 import math as m
+import numpy as np
 from controller import Controller
 import physics
 from config import *
@@ -59,17 +60,13 @@ class Rocket:
     def get_velocity_u(self):
         vx = self.velocity[0]
         vz = self.velocity[1]
-        theta = self.position[2]
-        
-        if theta not in [m.radians(0), m.radians(180)]:
-            return vx/m.sin(self.position[2])
-
-        return vz
+        return m.sqrt(vx**2 + vz**2)
 
     def update_drag(self):
         rho = physics.air_density(self.position[1])
         u = self.get_velocity_u()
-        self.drag = physics.drag_force(self.drag_coeff(), u, self.area, rho)
+        vz = self.velocity[1]
+        self.drag = physics.drag_force(self.drag_coeff(), u, self.area, rho) * np.sign(vz) # change sign if its going down
     
     def update_lift(self):
         self.lift =  0.0 # ignoring lift contribution for now
