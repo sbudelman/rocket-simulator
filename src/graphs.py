@@ -44,6 +44,11 @@ class GraphHandler:
         ax.set_ylabel(kwargs.get('ylabel', ''))
         ax.set_title(kwargs.get('title', ''))
         ax.grid(True)
+
+        vlines = kwargs.get('vline', None)
+        if vlines is not None:
+            ax.vlines(vlines, 0, 1, transform=ax.get_xaxis_transform(), color='red')
+            
         self._plot_idx += 1
         return ax
 

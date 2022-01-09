@@ -41,37 +41,17 @@ while time < SIM_DURATION:
     graph.collect([time, *rocket.position, *rocket.velocity, *rocket.acc, rocket.thrust, rocket.phi])
     time += SIM_TIMESTEP
 
-ax1 = graph.define_plot(0, 1, xlabel='time [s]', ylabel='x [m]', title='X over time')
-ax1.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax1.get_xaxis_transform(), color='red')
-
-ax2 = graph.define_plot(0, 2, xlabel='time [s]', ylabel='z [m]', title='Z over time')
-ax2.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax2.get_xaxis_transform(), color='red')
-
-ax3 = graph.define_plot(0, 3, xlabel='time [s]', ylabel='theta [rad]', title='Theta over time')
-ax3.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax3.get_xaxis_transform(), color='red')
-
-ax4 = graph.define_plot(0, 4, xlabel='time [s]', ylabel='vel X [m/s]', title='Vel X over time')
-ax4.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax4.get_xaxis_transform(), color='red')
-
-ax5 = graph.define_plot(0, 5, xlabel='time [s]', ylabel='vel Z [m/s]', title='Vel Z over time')
-ax5.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax5.get_xaxis_transform(), color='red')
-
-ax6 = graph.define_plot(0, 6, xlabel='time [s]', ylabel='vel theta [rad/s]', title='Vel Theta over time')
-ax6.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax6.get_xaxis_transform(), color='red')
-
-ax7 = graph.define_plot(0, 7, xlabel='time [s]', ylabel='acc X [m/s2]', title='Acc X over time')
-ax7.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax7.get_xaxis_transform(), color='red')
-
-ax8 = graph.define_plot(0, 8, xlabel='time [s]', ylabel='acc Z [m/s2]', title='Acc Z over time')
-ax5.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax8.get_xaxis_transform(), color='red')
-
-ax9 = graph.define_plot(0, 9, xlabel='time [s]', ylabel='acc theta [rad/s2]', title='Acc Theta over time')
-ax9.vlines([ROCKET_BURN_TIME], 0, 1, transform=ax9.get_xaxis_transform(), color='red')
-
+ax1 = graph.define_plot(0, 1, xlabel='time [s]', ylabel='x [m]', title='X over time', vlines=[ROCKET_BURN_TIME])
+ax2 = graph.define_plot(0, 2, xlabel='time [s]', ylabel='z [m]', title='Z over time', vlines=[ROCKET_BURN_TIME])
+ax3 = graph.define_plot(0, 3, xlabel='time [s]', ylabel='theta [rad]', title='Theta over time', vlines=[ROCKET_BURN_TIME])
+ax4 = graph.define_plot(0, 4, xlabel='time [s]', ylabel='vel X [m/s]', title='Vel X over time', vlines=[ROCKET_BURN_TIME])
+ax5 = graph.define_plot(0, 5, xlabel='time [s]', ylabel='vel Z [m/s]', title='Vel Z over time', vlines=[ROCKET_BURN_TIME])
+ax6 = graph.define_plot(0, 6, xlabel='time [s]', ylabel='vel theta [rad/s]', title='Vel Theta over time', vlines=[ROCKET_BURN_TIME])
+ax7 = graph.define_plot(0, 7, xlabel='time [s]', ylabel='acc X [m/s2]', title='Acc X over time', vlines=[ROCKET_BURN_TIME])
+ax8 = graph.define_plot(0, 8, xlabel='time [s]', ylabel='acc Z [m/s2]', title='Acc Z over time', vlines=[ROCKET_BURN_TIME])
+ax9 = graph.define_plot(0, 9, xlabel='time [s]', ylabel='acc theta [rad/s2]', title='Acc Theta over time', vlines=[ROCKET_BURN_TIME])
 ax10 = graph.define_plot(1, 2, xlabel='x [m]', ylabel='z [m]', title='Trajectory')
-
 ax11 = graph.define_plot(0, 10, xlabel='time [s]', ylabel='thrust [N]', title='Thrust over time')
-
 ax12 = graph.define_plot(0, 11, xlabel='time [s]', ylabel='phi [rad]', title='Phi over time')
 
 graph.show()
